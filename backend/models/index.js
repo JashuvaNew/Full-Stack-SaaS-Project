@@ -9,12 +9,24 @@ const env = process.env.NODE_ENV || 'development';
 const config = require('../config/config')[env];
 const db = {};
 
-const sequelize = new Sequelize(
-  config.database,
-  config.username,
-  config.password,
-  config
-);
+let sequelize;
+
+if (process.env.DATABASE_URL) {
+  // ✅ Production (Render / Railway)
+  sequelize = new Sequelize(process.env.DATABASE_URL, {
+    dialect: 'postgres',
+    protocol: 'postgres',
+    logging: false,
+  });
+} else {
+  // ✅ Local development
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
 fs
   .readdirSync(__dirname)
   .filter(file => {
