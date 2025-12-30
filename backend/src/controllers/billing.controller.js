@@ -11,6 +11,7 @@ exports.createCheckoutSession = async (req, res) => {
     if(!selectedPlan) {
       return res.status(400).json({ message: 'Invalid Plan' });
     }
+    
 
     const session = await stripe.checkout.sessions.create({
         mode:'payment',
@@ -32,8 +33,9 @@ exports.createCheckoutSession = async (req, res) => {
             plan: plan
         },
       
-        success_url: 'http://localhost:3000/success',
-        cancel_url: 'http://localhost:3000/cancel',
+        success_url: `${process.env.CLIENT_URL}/success`,
+cancel_url: `${process.env.CLIENT_URL}/cancel`,
+
 
          
 
