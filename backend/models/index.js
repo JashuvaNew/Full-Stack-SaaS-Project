@@ -26,6 +26,12 @@ if (process.env.DATABASE_URL) {
     config.password,
     config
   );
+  console.log('DB CONFIG:', {
+  database: config.database,
+  host: config.host,
+  user: config.username,
+});
+
 }
 fs
   .readdirSync(__dirname)

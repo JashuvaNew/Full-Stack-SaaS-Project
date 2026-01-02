@@ -1,10 +1,14 @@
 
+import UpgradeButton from '../components/upgradeButton';
 import './Home.css';
 function Home() {
   return (
     <div className="home-container">
-      <h2>Welcome to the Home Page</h2>
-      <p>This is the main landing page of the application.</p>
+       <div style={{ padding: '2rem' }}>
+      <h2>Welcome to SaaS App</h2>
+
+      <UpgradeButton />
+    </div>
     </div>
   );
 }

@@ -33,12 +33,8 @@ exports.createCheckoutSession = async (req, res) => {
             plan: plan
         },
       
-        success_url: `${process.env.CLIENT_URL}/success`,
-cancel_url: `${process.env.CLIENT_URL}/cancel`,
-
-
-         
-
+        success_url: 'http://localhost:5173/success',
+cancel_url: 'http://localhost:5173/cancel',
 
     });
     return res.json({ checkouturl: session.url });

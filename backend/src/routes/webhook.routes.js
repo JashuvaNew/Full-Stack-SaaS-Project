@@ -40,12 +40,12 @@ router.post(
       let role = 'FREE';
       if (plan === 'PRO') role = 'PRO';
       if (plan === 'PRO_PLUS') role = 'PRO_PLUS';
-
-      const [updatedRows] = await User.update(
+     
+         const [updatedRows] = await User.update(
         { role },
         { where: { id: userId } }
       );
-
+      
       console.log(`✅ User ${userId} upgraded to ${role}`);
       console.log('Rows updated:', updatedRows);
     }
