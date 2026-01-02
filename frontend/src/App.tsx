@@ -7,6 +7,7 @@ import ProFeature from './pages/proFeature';
 import Success from './pages/success';
 import Cancel from './pages/cancel';
 import Header from './components/Header';
+import Pricing from './pages/Pricing';
 
 
 function App() {
@@ -28,6 +29,8 @@ function App() {
         <Route path="/upgrade" element={<h2>Upgrade to PRO 🚀</h2>} />
         <Route path="/success" element={<Success />} />
 <Route path="/cancel" element={<Cancel />} />
+<Route path="/pricing" element={<Pricing />} />
+
           
 
       </Routes>
