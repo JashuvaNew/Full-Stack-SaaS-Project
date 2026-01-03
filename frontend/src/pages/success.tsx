@@ -1,23 +1,24 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../auth/AuthContext';
 
 function Success() {
   const navigate = useNavigate();
+  const { refreshUser } = useAuth();
 
   useEffect(() => {
-    // optional auto redirect after a few seconds
-    const timer = setTimeout(() => {
-      navigate('/');
-    }, 4000);
+    const upgrade = async () => {
+      await refreshUser(); // 🔥 THIS updates role
+     setTimeout(() => navigate('/'), 2000);
+    };
 
-    return () => clearTimeout(timer);
-  }, [navigate]);
+  upgrade()
+  }, [navigate, refreshUser]);
 
   return (
     <div style={{ padding: '2rem', textAlign: 'center' }}>
       <h2>✅ Payment Successful</h2>
-      <p>Your account is being upgraded to PRO.</p>
-      <p>Please refresh or re-login if access doesn’t update immediately.</p>
+      <p>Your account has been upgraded to PRO 🚀</p>
     </div>
   );
 }
