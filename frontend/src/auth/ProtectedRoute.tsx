@@ -1,27 +1,32 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../auth/AuthContext';
 import type { JSX } from 'react';
 
-interface Props {
+type Props = {
   children: JSX.Element;
   requiredRole?: 'FREE' | 'PRO' | 'PRO_PLUS';
-}
+};
 
-export default function ProtectedRoute({
-  children,
-  requiredRole,
-}: Props) {
-  const { user } = useAuth();
+function ProtectedRoute({ children, requiredRole }: Props) {
+  const { user, loading } = useAuth();
 
-  // Not logged in
+  // 1️⃣ Wait until auth is resolved
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+
+  // 2️⃣ Not logged in → login
   if (!user) {
     return <Navigate to="/login" replace />;
   }
 
-  // Role check
+  // 3️⃣ Role mismatch → upgrade
   if (requiredRole && user.role !== requiredRole) {
     return <Navigate to="/upgrade" replace />;
   }
 
+  // 4️⃣ Allowed
   return children;
 }
+
+export default ProtectedRoute;

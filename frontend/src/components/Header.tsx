@@ -1,47 +1,64 @@
+import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
+import UpgradeButton from './upgradeButton';
 
 function Header() {
   const { user, logout } = useAuth();
 
-  if (!user) return null;
-
   return (
     <header
       style={{
-        padding: '1rem 2rem',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        background: '#111',
-        color: '#fff',
+        padding: '1rem 2rem',
+        borderBottom: '1px solid #e5e7eb',
+        backgroundColor: '#e7eff8ff',
       }}
     >
-      <h3>SaaS App</h3>
+      {/* Left */}
+      <Link to="/" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
+        SaaS App
+      </Link>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        <span
-          style={{
-            padding: '0.3rem 0.6rem',
-            borderRadius: '12px',
-            background:
-              user.role === 'PRO' ? '#16a34a' : '#475569',
-            fontSize: '12px',
-          }}
-        >
-          {user.role}
-        </span>
+      {/* Right */}
+      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+        {!user && (
+          <>
+          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
+            <Link to="/login" style={{color:'white'}}>Login</Link>
+          </button>
+          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
+            <Link to="/register" style={{color:'white'}}>Register</Link>
+          </button>
+          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
+            <Link to="/pricing" style={{color:'white'}}>Pricing</Link>
+          </button>
+           
+          </>
+        )}
 
-        <button
-          onClick={logout}
-          style={{
-            padding: '0.4rem 0.8rem',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer',
-          }}
-        >
-          Logout
-        </button>
+        {user && (
+          <>
+            {/* Role badge */}
+            <span
+              style={{
+                padding: '0.3rem 0.6rem',
+                borderRadius: '999px',
+                fontSize: '0.8rem',
+                background: user.role === 'PRO' ? '#22c55e' : '#e5e7eb',
+                color: user.role === 'PRO' ? '#fff' : '#000',
+              }}
+            >
+              {user.role}
+            </span>
+
+            {/* Upgrade button only for FREE */}
+            {user.role === 'FREE' && <UpgradeButton />}
+
+            <button onClick={logout}>Logout</button>
+          </>
+        )}
       </div>
     </header>
   );

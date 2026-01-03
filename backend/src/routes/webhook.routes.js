@@ -4,11 +4,13 @@ const stripe = require('../../config/stripe');
 const {User} = require('../../models');
 
 
+
 router.post(
   '/',
   express.raw({ type: 'application/json' }),
   async (req, res) => {
     console.log('🔥 Stripe webhook received');
+    console.log('🔎 WEBHOOK DB:', process.env.DB_NAME, process.env.DB_HOST);
 
     const sig = req.headers['stripe-signature'];
     let event;

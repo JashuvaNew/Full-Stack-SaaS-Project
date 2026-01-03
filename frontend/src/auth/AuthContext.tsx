@@ -1,5 +1,5 @@
 import {createContext, useContext, useEffect, useState} from 'react';
-import { decodeJWT } from './jwt';
+import instance from '../api/axios';
 
 
 interface User {
@@ -11,8 +11,10 @@ interface User {
 interface AuthContextType {
     token: string | null;
     user: User | null;
+    loading: boolean;
     login: (token: string, user: User) => void;
     logout: () => void;
+    refreshUser: () => Promise<void>;
     isAuthenticated: boolean;
 
 }
@@ -22,6 +24,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
+      const [loading, setLoading] = useState(true);
 
       const logout = () => {
         localStorage.removeItem('token');
@@ -29,37 +32,44 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setUser(null);
     };
 
+  const fetchUser = async () => {
+    const res = await instance.get('/auth/me');
+    setUser(res.data);
+  };
+ 
 
-    useEffect(() => {
-        const storedToken = localStorage.getItem('token');
 
-        if (!storedToken) return;
+useEffect(() => {
+  const initAuth = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setLoading(false);
+      return;
+    }
+    setToken(token);
+    try {
+      await fetchUser(); // /auth/me
+    } finally {
+      setLoading(false);
+    }
+  };
 
-        const decoded = decodeJWT(storedToken);
-
-        if (decoded) {
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setToken(storedToken);
-            setUser(decoded);
-        } else {
-            logout();
-        }
-    }, []);
-    const login = (newToken: string, newUser: User) => {
+  initAuth();
+}, []);
+    const login = (newToken: string) => {
         localStorage.setItem('token', newToken);
         setToken(newToken);
-        setUser(newUser);
-
-        const payload = JSON.parse(atob(newToken.split('.')[1]));
-        setUser({ id: payload.id, role: payload.role });
+      fetchUser();
     };
 
     return (
         <AuthContext.Provider value={{
             token,
             user,
+            loading,
             login,
             logout,
+            refreshUser: fetchUser,  
             isAuthenticated: !!token,
 
         }}
