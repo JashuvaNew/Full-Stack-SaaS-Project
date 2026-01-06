@@ -1,11 +1,10 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import api from '../api/axios';
+import instance from '../api/axios';
 import { useAuth } from '../auth/AuthContext';
 import './Login.css';
 
 function Login() {
-  // Local state for form inputs
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -13,30 +12,26 @@ function Login() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // stop page refresh
-    setError('');
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault(); // ✅ IMPORTANT
 
     try {
-      const res = await api.post('/auth/login', {
+      const res = await instance.post('/auth/login', {
         email,
         password,
       });
 
-      // backend returns JWT token
-      login(res.data.token, res.data.user);
-
-      // redirect after login
-      navigate('/');
+      await login(res.data.token); // ✅ wait until /auth/me finishes
+      navigate('/dashboard', { replace: true });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      setError(err.response?.data?.message || 'Login failed');
+    } catch (e: any) {
+      setError(e.response?.data?.message || 'Login failed');
     }
   };
 
   return (
     <div className="login-container">
-      <form className="login-card" onSubmit={handleSubmit}>
+      <form className="login-card" onSubmit={handleLogin}>
         <h2>Login</h2>
 
         {error && <p className="error">{error}</p>}

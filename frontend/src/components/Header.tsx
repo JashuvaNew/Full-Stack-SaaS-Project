@@ -1,67 +1,44 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import UpgradeButton from './upgradeButton';
+import { useNavigate } from 'react-router-dom';
 
-function Header() {
-  const { user, logout } = useAuth();
+export default function Header() {
+  const { isAuthenticated, user, logout } = useAuth();
+  const navigate = useNavigate();
+   const handleLogout = () => {
+    logout();
+    navigate('/login', { replace: true });
+  };
 
   return (
-    <header
-      style={{
-        display: 'flex',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: '1rem 2rem',
-        borderBottom: '1px solid #e5e7eb',
-        backgroundColor: '#e7eff8ff',
-      }}
-    >
-      {/* Left */}
-      <Link to="/" style={{ fontWeight: 'bold', fontSize: '1.2rem' }}>
-        SaaS App
-      </Link>
-
-      {/* Right */}
-      <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-        {!user && (
+    <header style={{ padding: 16, borderBottom: '1px solid #ddd' }}>
+    
+<button style={{ marginRight: 8 , padding: '8px 16px',  color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+           <Link style={{color:'Black', fontWeight:'bold', fontSize:'20px'}} to="/">Talk-With-AI</Link>{' '}
+          </button>
+      <nav style={{ float: 'right' }}>
+        {!isAuthenticated ? (
           <>
-          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
-            <Link to="/login" style={{color:'white'}}>Login</Link>
+          <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+           <Link style={{color:'white'}} to="/pricing">Pricing</Link>{' '}
           </button>
-          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
-            <Link to="/register" style={{color:'white'}}>Register</Link>
+           <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+           <Link style={{color:'white'}}  to="/login">Login</Link>{' '}
           </button>
-          <button style={{backgroundColor:'blue',color:'black',padding:'8px', border:'0px', borderRadius:'6px'}}>
-            <Link to="/pricing" style={{color:'white'}}>Pricing</Link>
+           <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
+           <Link style={{color:'white'}}  to="/register">Register</Link>{' '}
           </button>
-           
           </>
-        )}
-
-        {user && (
+        ) : (
           <>
-            {/* Role badge */}
-            <span
-              style={{
-                padding: '0.3rem 0.6rem',
-                borderRadius: '999px',
-                fontSize: '0.8rem',
-                background: user.role === 'PRO' ? '#22c55e' : '#e5e7eb',
-                color: user.role === 'PRO' ? '#fff' : '#000',
-              }}
-            >
-              {user.role}
+            <Link to="/dashboard">Dashboard</Link>{' '}
+            <span style={{ marginRight: 8 }}>
+              {user?.role === 'PRO' ? '🚀 PRO' : '🆓 FREE'}
             </span>
-
-            {/* Upgrade button only for FREE */}
-            {user.role === 'FREE' && <UpgradeButton />}
-
-            <button onClick={logout}>Logout</button>
+            <button onClick={handleLogout}>Logout</button>
           </>
         )}
-      </div>
+      </nav>
     </header>
   );
 }
-
-export default Header;

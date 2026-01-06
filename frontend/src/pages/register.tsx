@@ -27,7 +27,7 @@ function Register() {
             });
 
             login(res.data.token, res.data.user);
-            navigate('/');
+            navigate('/dashboard');
             console.log('Registration successful');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         }catch (err: any) {
