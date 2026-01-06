@@ -1,4 +1,4 @@
-const { AiUsage } = require('../models');
+const { AiUsage } = require('../../models');
 
 module.exports = async (req, res, next) => {
   const user = req.user;

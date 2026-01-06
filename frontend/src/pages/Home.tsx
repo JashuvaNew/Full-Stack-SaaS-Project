@@ -1,13 +1,13 @@
 
-import UpgradeButton from '../components/upgradeButton';
+// import UpgradeButton from '../components/upgradeButton';
 import './Home.css';
 function Home() {
   return (
     <div className="home-container">
        <div style={{ padding: '2rem' }}>
-      <h2>Welcome to SaaS App</h2>
+      <h2>Welcome to TALK-WITH-AI</h2>
 
-      <UpgradeButton />
+      {/* <UpgradeButton /> */}
     </div>
     </div>
   );

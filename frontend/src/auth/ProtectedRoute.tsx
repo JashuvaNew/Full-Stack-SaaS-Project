@@ -10,10 +10,7 @@ type Props = {
 function ProtectedRoute({ children, requiredRole }: Props) {
   const { user, loading } = useAuth();
 
-  // 1️⃣ Wait until auth is resolved
-  if (loading) {
-    return <p>Loading...</p>;
-  }
+ if (loading) return null; // or spinner
 
   // 2️⃣ Not logged in → login
   if (!user) {

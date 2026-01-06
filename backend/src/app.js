@@ -25,7 +25,7 @@ app.use('/billing', require('./routes/billing.routes'));
 
 app.use('/pro', require('./routes/pro.routes'));
 
-app.use('/ai', require('./routes/ai.routes'));
+app.use('/ai', require('./routes/api.routes'));
 
 
 

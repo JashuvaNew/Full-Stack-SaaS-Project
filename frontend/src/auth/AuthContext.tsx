@@ -12,7 +12,7 @@ interface AuthContextType {
     token: string | null;
     user: User | null;
     loading: boolean;
-    login: (token: string, user: User) => void;
+    login: (token: string) => void;
     logout: () => void;
     refreshUser: () => Promise<void>;
     isAuthenticated: boolean;
@@ -25,12 +25,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
     const [user, setUser] = useState<User | null>(null);
       const [loading, setLoading] = useState(true);
-
-      const logout = () => {
-        localStorage.removeItem('token');
-        setToken(null);
-        setUser(null);
-    };
 
   const fetchUser = async () => {
     const res = await instance.get('/auth/me');
@@ -56,10 +50,15 @@ useEffect(() => {
 
   initAuth();
 }, []);
-    const login = (newToken: string) => {
+    const login = async (newToken: string) => {
         localStorage.setItem('token', newToken);
         setToken(newToken);
-      fetchUser();
+      await fetchUser();
+    };
+     const logout = () => {
+        localStorage.removeItem('token');
+        setToken(null);
+        setUser(null);
     };
 
     return (
