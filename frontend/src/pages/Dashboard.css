@@ -1,0 +1,123 @@
+/* Layout */
+.dashboard {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.dashboard h2 {
+  margin-bottom: 8px;
+}
+
+.dashboard h3 {
+  margin-top: 24px;
+  margin-bottom: 8px;
+}
+
+/* Role badge */
+.role-badge {
+  display: inline-block;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.role-free {
+  background-color: #f1f5f9;
+  color: #0f172a;
+}
+
+.role-pro {
+  background-color: #e6fffa;
+  color: #065f46;
+}
+
+/* AI section */
+.ai-description {
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.ai-textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 6px;
+  border: 1px solid #cbd5e1;
+  resize: vertical;
+  font-size: 14px;
+}
+
+.ai-textarea:focus {
+  outline: none;
+  border-color: #2563eb;
+}
+
+/* Buttons */
+.primary-btn {
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+  background-color: #2563eb;
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primary-btn:disabled {
+  background-color: #94a3b8;
+  cursor: not-allowed;
+}
+
+.secondary-btn {
+  margin-top: 16px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: 1px solid #2563eb;
+  background-color: white;
+  color: #2563eb;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* AI response */
+.ai-answer {
+  margin-top: 16px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+/* Error */
+.ai-error {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-radius: 6px;
+  font-weight: 500;
+}
+
+/* Divider */
+.divider {
+  margin: 20px 0;
+  border: none;
+  border-top: 1px solid #e2e8f0;
+}
+.ai-answer {
+  margin-bottom: 16px;
+  padding: 16px;
+  background-color: #f8fafc;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  font-size: 14px;
+  line-height: 1.6;
+  border-left: 4px solid #2563eb;
+}
+.ai-answer p {
+  margin: 0 0 8px 0;
+}
