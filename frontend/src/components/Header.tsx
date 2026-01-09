@@ -1,41 +1,54 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import './header.css';
 
 export default function Header() {
   const { isAuthenticated, user, logout } = useAuth();
   const navigate = useNavigate();
-   const handleLogout = () => {
+
+  const handleLogout = () => {
     logout();
     navigate('/login', { replace: true });
   };
 
   return (
-    <header style={{ padding: 16, borderBottom: '1px solid #ddd' }}>
-    
-<button style={{ marginRight: 8 , padding: '8px 16px',  color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-           <Link style={{color:'Black', fontWeight:'bold', fontSize:'20px'}} to="/">Talk-With-AI</Link>{' '}
-          </button>
-      <nav style={{ float: 'right' }}>
+    <header className="header">
+      {/* LOGO */}
+      <Link to="/" className="logo">
+        Talk-With-AI
+      </Link>
+
+      {/* NAV */}
+      <nav className="nav">
         {!isAuthenticated ? (
           <>
-          <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-           <Link style={{color:'white'}} to="/pricing">Pricing</Link>{' '}
-          </button>
-           <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-           <Link style={{color:'white'}}  to="/login">Login</Link>{' '}
-          </button>
-           <button style={{ marginRight: 8 , padding: '8px 16px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: 4, cursor: 'pointer' }}>
-           <Link style={{color:'white'}}  to="/register">Register</Link>{' '}
-          </button>
+            <Link to="/pricing" className="nav-link">
+              Pricing
+            </Link>
+            <Link to="/login" className="nav-link">
+              Login
+            </Link>
+            <Link to="/register" className="btn primary">
+              Register
+            </Link>
           </>
         ) : (
           <>
-            <Link to="/dashboard">Dashboard</Link>{' '}
-            <span style={{ marginRight: 8 }}>
+            <Link to="/dashboard" className="nav-link">
+              Dashboard
+            </Link>
+
+            <span
+              className={`role-badge ${
+                user?.role === 'PRO' ? 'pro' : 'free'
+              }`}
+            >
               {user?.role === 'PRO' ? '🚀 PRO' : '🆓 FREE'}
             </span>
-            <button onClick={handleLogout}>Logout</button>
+
+            <button className="btn outline" onClick={handleLogout}>
+              Logout
+            </button>
           </>
         )}
       </nav>

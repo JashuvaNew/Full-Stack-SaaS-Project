@@ -8,7 +8,7 @@ import Success from './pages/success';
 import Cancel from './pages/cancel';
 import Header from './components/Header';
 import Pricing from './pages/Pricing';
-// import AiChat from './pages/aiChat';
+import AiChat from './pages/aiChat';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
 
@@ -37,6 +37,11 @@ function App() {
     {/* Stripe */}
     <Route path="/success" element={<Success />} />
     <Route path="/cancel" element={<Cancel />} />
+    <Route path = "/ai-chat" element={
+      <ProtectedRoute>
+        <AiChat />
+      </ProtectedRoute>
+    } />
   </Routes>
 </BrowserRouter>
 
